@@ -1,0 +1,11 @@
+tips — short notes and cheatsheets
+
+Short version: a collection of small tips across topics.
+Open the file you need, copy commands, and adapt as needed.
+
+**Contents**
+- OpenWrt
+  - `OpenWRT/openwrt-extroot-usb-ru.md` — OpenWrt storage extension via Extroot (RU).
+  - `OpenWRT/openwrt-extroot-usb-en.md` — OpenWrt storage extension via Extroot (EN).
+- Rust
+  - `rust/pattern-matching.md` — cheatsheet for pattern matching in Rust.
