@@ -9,3 +9,5 @@ Open the file you need, copy commands, and adapt as needed.
   - `OpenWRT/openwrt-extroot-usb-en.md` — OpenWrt storage extension via Extroot (EN).
 - Rust
   - `rust/pattern-matching.md` — cheatsheet for pattern matching in Rust.
+- Go
+  - `Go/gracefull-shutdown.md` - gracefull shutdown for HTTP server
