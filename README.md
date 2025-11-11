@@ -11,3 +11,7 @@ Open the file you need, copy commands, and adapt as needed.
   - `rust/pattern-matching.md` — cheatsheet for pattern matching in Rust.
 - Go
   - `Go/gracefull-shutdown.md` - gracefull shutdown for HTTP server
+- Git
+  - `Git/meld-git-difftool.md` - GUI diff tool with Git.
+- k8s
+  - `K8s/helpfull-commands.md` - helpfull commands.
