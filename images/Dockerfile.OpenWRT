@@ -1,0 +1,52 @@
+FROM ubuntu:24.04
+
+SHELL ["/bin/bash", "-lc"]
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ARG UID=1000
+ARG GID=1000
+
+ARG OPENWRT_REPO=https://github.com/openwrt/openwrt.git
+ARG OPENWRT_REF=openwrt-23.05
+
+ARG PACKAGES_REPO=https://github.com/openwrt/packages.git
+ARG PACKAGES_REF=openwrt-23.05
+
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends \
+      build-essential clang flex bison g++ gawk \
+      gcc-multilib g++-multilib gettext git \
+      libncurses-dev libssl-dev \
+      python3 python3-setuptools \
+      rsync swig unzip zlib1g-dev file wget ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN set -eux; \
+    if ! getent group builder >/dev/null; then \
+      if getent group "${GID}" >/dev/null; then groupadd -o -g "${GID}" builder; else groupadd -g "${GID}" builder; fi; \
+    fi; \
+    if ! id -u builder >/dev/null 2>&1; then \
+      if getent passwd "${UID}" >/dev/null; then useradd -o -m -u "${UID}" -g builder -s /bin/bash builder; \
+      else useradd -m -u "${UID}" -g builder -s /bin/bash builder; fi; \
+    fi
+
+USER builder
+WORKDIR /home/builder
+
+RUN git clone --depth 1 --branch "${OPENWRT_REF}" "${OPENWRT_REPO}" openwrt
+
+WORKDIR /home/builder/openwrt
+
+RUN if grep -qE '^src-git[[:space:]]+packages[[:space:]]+' feeds.conf.default; then \
+      sed -i "s|^src-git[[:space:]]\\+packages[[:space:]]\\+.*$|src-git packages ${PACKAGES_REPO};${PACKAGES_REF}|g" feeds.conf.default; \
+    else \
+      printf '\nsrc-git packages %s;%s\n' "${PACKAGES_REPO}" "${PACKAGES_REF}" >> feeds.conf.default; \
+    fi && \
+    ./scripts/feeds update -a && \
+    ./scripts/feeds install -a
+
+COPY --chown=builder:builder images/openwrt-x86_64.config /home/builder/openwrt/.config
+RUN make defconfig
+
+CMD ["/bin/bash"]

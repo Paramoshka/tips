@@ -7,6 +7,8 @@ Open the file you need, copy commands, and adapt as needed.
 - OpenWrt
   - `OpenWRT/openwrt-extroot-usb-ru.md` — OpenWrt storage extension via Extroot (RU).
   - `OpenWRT/openwrt-extroot-usb-en.md` — OpenWrt storage extension via Extroot (EN).
+  - `OpenWRT/openwrt-build-x86-docker-ru.md` — Build OpenWrt x86_64 + packages in Docker (RU).
+  - `OpenWRT/openwrt-build-x86-docker-en.md` — Build OpenWrt x86_64 + packages in Docker (EN).
 - Rust
   - `rust/pattern-matching.md` — cheatsheet for pattern matching in Rust.
 - Go
