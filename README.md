@@ -17,3 +17,5 @@ Open the file you need, copy commands, and adapt as needed.
   - `Git/meld-git-difftool.md` - GUI diff tool with Git.
 - k8s
   - `K8s/helpfull-commands.md` - helpfull commands.
+- MySQL
+  - `MySQL/mysql-recovery-docker-en.md` - recovery dump via Docker (EN).
