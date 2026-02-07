@@ -9,6 +9,8 @@ Open the file you need, copy commands, and adapt as needed.
   - `OpenWRT/openwrt-extroot-usb-en.md` — OpenWrt storage extension via Extroot (EN).
   - `OpenWRT/openwrt-build-x86-docker-ru.md` — Build OpenWrt x86_64 + packages in Docker (RU).
   - `OpenWRT/openwrt-build-x86-docker-en.md` — Build OpenWrt x86_64 + packages in Docker (EN).
+  - `OpenWRT/openwrt-xray-core-install-en.md` — Install xray-core on OpenWrt (EN).
+  - `OpenWRT/vless2xray-en.md` — VLESS URL to Xray config (EN).
 - Rust
   - `rust/pattern-matching.md` — cheatsheet for pattern matching in Rust.
 - Go
