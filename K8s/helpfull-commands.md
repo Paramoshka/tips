@@ -4,6 +4,16 @@
 kubectl debug node/NodeName -it --image=busybox -- chroot /host/
 ```
 
+#### Scan image vulnerabilities on node
+
+```bash
+REF="registry.example.com/app/image:tag"
+mkdir -p /tmp/imgroot
+ctr -n k8s.io images mount --platform linux/amd64 "$REF" /tmp/imgroot
+grype dir:/tmp/imgroot
+ctr -n k8s.io images unmount --rm /tmp/imgroot
+```
+
 #### Attach to Pod with debug container
 
 ```bash
