@@ -21,3 +21,8 @@ Open the file you need, copy commands, and adapt as needed.
   - `K8s/helpfull-commands.md` - helpfull commands.
 - MySQL
   - `MySQL/mysql-recovery-docker-en.md` - recovery dump via Docker (EN).
+- KDE
+  - `KDE/konsole-nerd-font.md` - Nerd Font + default Konsole profile.
+- Neovim
+  - `Neovim/ide-setup.md` - full IDE config (C/Go/Python/Lua) in `Neovim/config/`: install + keymaps.
+  - `Neovim/readable-theme-and-cursor.md` - readable tokyonight colors, thin cursor.
