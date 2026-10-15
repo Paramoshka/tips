@@ -24,5 +24,5 @@ Open the file you need, copy commands, and adapt as needed.
 - KDE
   - `KDE/konsole-nerd-font.md` - Nerd Font + default Konsole profile.
 - Neovim
-  - `Neovim/ide-setup.md` - full IDE config (C/Go/Python/Lua) in `Neovim/config/`: install + keymaps.
+  - `Neovim/ide-setup.md` - IDE config (C/Go/Python/Lua/Helm) in `Neovim/config/`: tests, debugging, sessions, install + keymaps.
   - `Neovim/readable-theme-and-cursor.md` - readable tokyonight colors, thin cursor.

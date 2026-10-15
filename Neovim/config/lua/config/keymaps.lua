@@ -22,6 +22,7 @@ map("n", "<leader>|", "<C-w>v", { desc = "Split right" })
 map("n", "<leader>wd", "<C-w>c", { desc = "Close window" })
 
 -- Buffers
+map("n", "<leader>br", "<cmd>checktime<cr>", { desc = "Reload externally changed files" })
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 

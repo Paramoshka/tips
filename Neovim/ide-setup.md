@@ -1,4 +1,4 @@
-# Neovim as an IDE (C / Go / Python / Lua)
+# Neovim as an IDE (C / Go / Python / Lua / Helm)
 
 Full config lives in [`config/`](config/) — copy it to `~/.config/nvim` and start `nvim`.
 Plugins are managed by lazy.nvim; versions are pinned in `config/lazy-lock.json`.
@@ -19,10 +19,21 @@ Same config is used in [c-devbox](https://github.com/Paramoshka/c-devbox) (Docke
 | Git | gitsigns.nvim, lazygit via snacks |
 | Diagnostics panel | trouble.nvim |
 | UI | lualine, bufferline, which-key |
-| Editing | mini.pairs, mini.surround, mini.ai, flash.nvim, todo-comments |
+| Editing | mini.pairs, mini.surround, mini.ai, flash.nvim, todo-comments + plenary |
+| Helm templates | helm-ls.nvim + Helm LS + Helm/Go-template parsers |
+| Go tests | neotest + neotest-golang (1.x) |
+| Go debugging | nvim-dap (0.10.x), nvim-dap-go, nvim-dap-ui + Delve |
+| Project search and replace | grug-far.nvim |
+| Sessions / tasks | persistence.nvim / overseer.nvim |
 
-LSP servers: `clangd`, `gopls`, `pyright`, `ruff`, `lua_ls`, `bashls`, `jsonls`, `yamlls`.
-A server is enabled only if its binary is found, so missing ones are silently skipped.
+LSP servers: `clangd`, `gopls`, `pyright`, `ruff`, `lua_ls`, `bashls`, `jsonls`, `yamlls`, `helm_ls`.
+The config enables installed servers; optional language tools can be added later.
+`nvim-dap` stays on 0.10.x and `neotest-golang` on 1.x to support Neovim 0.11.0
+and the current Treesitter `master` grammars. Keep `lazy-lock.json` when copying.
+
+The visual setup uses Tokyo Night Moon, darker side panels, clearer comments and
+line numbers, underlined active tabs, and test/debug status in the statusline.
+The dashboard includes recent projects and manual session restore.
 
 ## Requirements
 
@@ -48,7 +59,9 @@ sudo mv nvim-linux-x86_64.appimage /usr/local/bin/nvim
 ### Language tools (install what you need)
 
 Mason installs automatically: `lua-language-server`, `stylua`, `shfmt`,
-`ruff` (needs `python3-venv`), `bash-language-server` / `json-lsp` / `yaml-language-server` (need `npm`).
+`helm-ls`, `delve` (needs Go), `ruff` (needs `python3-venv`),
+`bash-language-server` / `json-lsp` / `yaml-language-server` (need `npm`).
+Install Helm separately for Helm LS; install Go to use Go tests and Delve.
 
 The rest — manually:
 
@@ -64,7 +77,8 @@ go install golang.org/x/tools/cmd/goimports@latest
 npm install -g pyright        # or: :MasonInstall pyright
 
 # Git UI (optional, <leader>gg)
-sudo apt install lazygit
+# Install lazygit separately and make sure it is in PATH.
+# See https://github.com/jesseduffield/lazygit#installation
 ```
 
 ## Install
@@ -114,7 +128,8 @@ Leader is `Space`. Press `Space` and wait — which-key shows everything.
 | `<leader>bd` / `<leader>bo` | close buffer / close others |
 | `Ctrl+h/j/k/l` | move between windows |
 | `<leader>-` / `<leader>\|` | split below / right |
-| `Ctrl+/` | toggle terminal |
+| `Ctrl+/` | toggle terminal at the bottom |
+| `Esc Esc`, then `Ctrl+h/j/k/l` | leave terminal input and move to another window |
 
 ### Code
 
@@ -141,6 +156,47 @@ Leader is `Space`. Press `Space` and wait — which-key shows everything.
 | `<leader>gb` | blame line |
 | `<leader>gs` / `<leader>gl` | git status / log |
 | `<leader>gg` | lazygit |
+
+### Go tests and debugging
+
+| Keys | Action |
+|------|--------|
+| `<leader>tt` / `<leader>tf` | nearest test / tests in the current file |
+| `<leader>tl` / `<leader>tS` | rerun last / stop test |
+| `<leader>ts` / `<leader>to` | test tree / test output |
+| `<leader>tO` | combined test output panel |
+| `<leader>td` | debug nearest test through Neotest |
+| `F9` / `F5` | breakpoint / start or continue debugging |
+| `F10` / `F11` / `F12` | step over / into / out |
+| `<leader>dB` / `<leader>de` | conditional breakpoint / evaluate expression |
+| `<leader>du` / `<leader>dq` | debug panels / terminate session |
+
+Go tests use `-count=1 -timeout=60s`; adjust `go_test_args` for longer tests.
+Discovery runs on demand rather than scanning every Go module in the background.
+Ginkgo `Describe`/`It` specs need the project's own runner; this setup does not
+provide a separate Ginkgo test tree. Go debugging requires Go and Delve;
+C/C++ debug adapters are not configured.
+
+### Replace, sessions and tasks
+
+| Keys | Action |
+|------|--------|
+| `<leader>sp` | search and replace under the Git project root |
+| `<leader>qs` / `<leader>qS` | restore / select session |
+| `<leader>ql` / `<leader>qd` | last session / stop saving this session |
+| `<leader>or` / `<leader>ot` | run project task / task panel |
+
+In Grug Far, review the matches and use `\r` to replace (local leader is `\`).
+Sessions save on exit after a file has been opened; restoration is manual.
+
+### Helm diagnostics
+
+Templates use `helm` filetype, Helm LS and Treesitter highlighting. Ordinary YAML
+continues to use `yamlls`. The experimental YAML diagnostics inside Helm LS are
+disabled because mutually exclusive template branches produce false duplicate-key
+errors. Completion/hover and Helm lint remain enabled. Use the project's template
+tests to validate rendered output. Inline diagnostic text is shown for the current
+line; `<leader>xx` shows the full diagnostic panel.
 
 ## Update
 

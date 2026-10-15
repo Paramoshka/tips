@@ -1,6 +1,16 @@
 local group = vim.api.nvim_create_augroup("user_config", { clear = true })
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Reload externally changed files without discarding unsaved edits
+autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    group = group,
+    callback = function()
+        if vim.fn.getcmdwintype() == "" and vim.fn.mode() ~= "c" then
+            vim.cmd("checktime")
+        end
+    end,
+})
+
 -- Flash yanked text
 autocmd("TextYankPost", {
     group = group,

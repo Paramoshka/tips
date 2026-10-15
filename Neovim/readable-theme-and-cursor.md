@@ -19,8 +19,11 @@ Pair it with a Nerd Font in the terminal — see `KDE/konsole-nerd-font.md`.
         styles = { comments = { italic = false }, keywords = { italic = false } },
         -- Default palette is low-contrast: lift comments, gutter and selection
         on_colors = function(c)
-            c.comment = "#7f8bb8"
-            c.fg_gutter = "#545c7e"
+            c.comment = "#8793b8"
+            c.fg_gutter = "#69739a"
+            c.bg_sidebar = "#1b1e2d"
+            c.bg_float = "#1b1e2d"
+            c.border_highlight = c.blue
             c.bg_visual = "#33467c"
         end,
         on_highlights = function(hl, c)
@@ -31,6 +34,12 @@ Pair it with a Nerd Font in the terminal — see `KDE/konsole-nerd-font.md`.
             hl.LspInlayHint = { fg = c.dark5, bg = c.bg_highlight }
             hl.MatchParen = { fg = c.orange, bold = true, underline = true }
             hl.Whitespace = { fg = c.bg_highlight }
+            hl.WinSeparator = { fg = c.fg_gutter, bg = c.bg }
+            hl.FloatTitle = { fg = c.blue, bold = true }
+            hl.SnacksPickerTitle = { fg = c.blue, bold = true }
+            hl.SnacksPickerInputBorder = { fg = c.blue, bg = c.bg_float }
+            hl.TreesitterContext = { bg = c.bg_float }
+            hl.TreesitterContextBottom = { sp = c.fg_gutter, underline = true }
         end,
     },
     config = function(_, opts)

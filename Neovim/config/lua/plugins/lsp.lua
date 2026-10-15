@@ -36,6 +36,18 @@ local servers = {
     bashls = {},
     jsonls = {},
     yamlls = {},
+    helm_ls = {
+        settings = {
+            ["helm-ls"] = {
+                yamlls = {
+                    path = "yaml-language-server",
+                    -- Mutually exclusive template branches produce false duplicate-key errors.
+                    -- Keep completion/hover; helm lint and module tests validate templates.
+                    diagnosticsLimit = 0,
+                },
+            },
+        },
+    },
 }
 
 -- Tools mason installs if missing. `needs` skips a package whose installer
@@ -50,6 +62,8 @@ local mason_packages = {
     { "lua-language-server" },
     { "stylua" },
     { "shfmt" },
+    { "helm-ls" },
+    { "delve", needs = has("go") },
     { "ruff", needs = has_python_venv },
     { "bash-language-server", needs = has("npm") },
     { "json-lsp", needs = has("npm") },

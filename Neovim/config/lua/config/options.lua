@@ -59,7 +59,7 @@ vim.diagnostic.config({
     severity_sort = true,
     underline = true,
     update_in_insert = false,
-    virtual_text = { spacing = 2, prefix = "●", source = "if_many" },
+    virtual_text = { current_line = true, spacing = 2, prefix = "●", source = "if_many" },
     float = { border = "rounded", source = "if_many" },
     signs = {
         text = {

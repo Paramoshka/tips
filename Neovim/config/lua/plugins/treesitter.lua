@@ -9,7 +9,7 @@ return {
         opts = {
             ensure_installed = {
                 "c", "cpp", "go", "gomod", "gosum", "gowork", "python", "lua", "luadoc", "vim", "vimdoc",
-                "bash", "json", "yaml", "toml", "make", "cmake", "dockerfile", "markdown", "markdown_inline",
+                "bash", "json", "yaml", "helm", "gotmpl", "toml", "make", "cmake", "dockerfile", "markdown", "markdown_inline",
                 "query", "regex", "diff", "git_config", "gitcommit", "gitignore",
             },
             auto_install = true,

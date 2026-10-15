@@ -14,27 +14,32 @@ return {
         statuscolumn = { enabled = true },
         explorer = { replace_netrw = true },
         picker = {
+            layout = { preset = "default" },
             sources = {
-                explorer = { layout = { layout = { width = 32 } } },
+                explorer = { layout = { layout = { width = 38, min_width = 30 } } },
                 files = { hidden = true },
                 grep = { hidden = true },
             },
         },
-        terminal = { win = { style = "terminal" } },
+        terminal = { win = { style = "terminal", position = "bottom", height = 0.3 } },
         dashboard = {
             preset = {
+                header = "NVIM  /  FLIGHT DECK\nGo  ·  Helm  ·  Kubernetes",
                 keys = {
                     { icon = "\u{f002} ", key = "f", desc = "Find file", action = ":lua Snacks.picker.files()" },
                     { icon = "\u{f1da} ", key = "r", desc = "Recent files", action = ":lua Snacks.picker.recent()" },
                     { icon = "\u{f422} ", key = "g", desc = "Grep", action = ":lua Snacks.picker.grep()" },
                     { icon = "\u{f07c} ", key = "e", desc = "Explorer", action = ":lua Snacks.explorer()" },
+                    { icon = "\u{f0e2} ", key = "s", desc = "Restore session", section = "session" },
                     { icon = "\u{f013} ", key = "c", desc = "Config", action = ":lua Snacks.picker.files({ cwd = vim.fn.stdpath('config') })" },
                     { icon = "\u{f04b2} ", key = "l", desc = "Lazy", action = ":Lazy" },
                     { icon = "\u{f011} ", key = "q", desc = "Quit", action = ":qa" },
                 },
             },
             sections = {
+                { section = "header", padding = { 1, 2 } },
                 { section = "keys", gap = 1, padding = 1 },
+                { icon = "\u{f07c} ", title = "Projects", section = "projects", limit = 4, indent = 2, padding = 1 },
                 { section = "startup" },
             },
         },
