@@ -5,6 +5,14 @@ Goal: generate `config.json` for Xray from a `vless://` URL (including `xhttp` a
 ## 1) Script location
 The script lives in `scripts/vless2xray.py`.
 
+For XHTTP links, URL-encoded JSON in `extra` is preserved in
+`xhttpSettings.extra` (including padding, HTTP method and `xmux` settings).
+The `host`, `path` and `mode` fields are also read from `extra` when absent
+from the URL parameters; explicit URL parameters take precedence.
+The legacy `x_padding_bytes` parameter supplies `extra.xPaddingBytes` only
+when that field is absent from `extra`. Invalid JSON or a non-object `extra`
+causes conversion to fail with an error.
+
 ## 2) Example usage
 ```sh
 chmod +x scripts/vless2xray.py

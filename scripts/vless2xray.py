@@ -25,12 +25,28 @@ def main():
 
     xhttp = {}
     if network == "xhttp":
+        extra = {}
+        if "extra" in q:
+            try:
+                extra = json.loads(q1(q, "extra"))
+            except json.JSONDecodeError:
+                raise SystemExit("Invalid xhttp extra: expected a JSON object")
+            if not isinstance(extra, dict):
+                raise SystemExit("Invalid xhttp extra: expected a JSON object")
+
+        # Explicit URL parameters override host/path/mode from extra.
+        # Xray reads these fields from xhttpSettings, even with extra set.
         # parse_qs already decodes %2F -> /
-        xhttp["path"] = q1(q, "path", "/")
-        if "host" in q:
-            xhttp["host"] = q1(q, "host")
-        if "mode" in q:
-            xhttp["mode"] = q1(q, "mode")
+        xhttp["path"] = q1(q, "path", extra.get("path", "/"))
+        for key in ("host", "mode"):
+            if key in q or key in extra:
+                xhttp[key] = q1(q, key, extra.get(key))
+
+        # Legacy padding parameter is a fallback; extra takes precedence.
+        if "x_padding_bytes" in q:
+            extra.setdefault("xPaddingBytes", q1(q, "x_padding_bytes"))
+        if extra:
+            xhttp["extra"] = extra
 
     reality = {}
     if security == "reality":
