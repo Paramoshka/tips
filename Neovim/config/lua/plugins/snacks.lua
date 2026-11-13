@@ -16,7 +16,24 @@ return {
         picker = {
             layout = { preset = "default" },
             sources = {
-                explorer = { layout = { layout = { width = 38, min_width = 30 } } },
+                explorer = {
+                    hidden = true,
+                    follow_file = true,
+                    layout = {
+                        layout = {
+                            backdrop = false,
+                            box = "vertical",
+                            position = "left",
+                            border = "none",
+                            height = 0,
+                            width = 38,
+                            min_width = 30,
+                            { win = "input", height = 1, border = "bottom", title = "" },
+                            { win = "list", border = "none" },
+                            { win = "preview", title = "{preview}", height = 0.4, border = "top" },
+                        },
+                    },
+                },
                 files = { hidden = true },
                 grep = { hidden = true },
             },
@@ -53,6 +70,7 @@ return {
         { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Config files" },
         { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
         { "<leader>e", function() Snacks.explorer() end, desc = "File explorer" },
+        { "<leader>fe", function() Snacks.explorer.reveal() end, desc = "Reveal current file" },
         -- Search
         { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
         { "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep" },

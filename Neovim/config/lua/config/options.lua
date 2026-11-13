@@ -4,8 +4,8 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
--- Thin bar cursor everywhere; insert mode blinks, replace mode is an underline
-opt.guicursor = "n-v-c-sm:ver25,i-ci-ve:ver25-blinkwait300-blinkon500-blinkoff400,r-cr-o:hor20"
+-- Make Normal mode easy to distinguish from Insert mode.
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-blinkwait300-blinkon500-blinkoff400,r-cr-o:hor20"
 opt.signcolumn = "yes"
 opt.termguicolors = true
 opt.showmode = false -- mode is shown in lualine

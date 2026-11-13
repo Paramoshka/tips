@@ -10,7 +10,7 @@ return {
             styles = { comments = { italic = false }, keywords = { italic = false } },
             -- Default palette is low-contrast: lift comments, gutter and selection
             on_colors = function(c)
-                c.comment = "#8793b8"
+                c.comment = "#9aa5c4"
                 c.fg_gutter = "#69739a"
                 c.bg_sidebar = "#1b1e2d"
                 c.bg_float = "#1b1e2d"
@@ -29,6 +29,11 @@ return {
                 hl.FloatTitle = { fg = c.blue, bold = true }
                 hl.SnacksPickerTitle = { fg = c.blue, bold = true }
                 hl.SnacksPickerInputBorder = { fg = c.blue, bg = c.bg_float }
+                hl.Directory = { fg = c.comment }
+                hl.SnacksPickerDirectory = { fg = c.comment }
+                hl.SnacksPickerDir = { fg = c.comment }
+                hl.SnacksPickerTree = { fg = c.fg_gutter }
+                hl.SnacksPickerListCursorLine = { bg = c.bg_visual, bold = true }
                 hl.TreesitterContext = { bg = c.bg_float }
                 hl.TreesitterContextBottom = { sp = c.fg_gutter, underline = true }
             end,
@@ -45,9 +50,16 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
-        opts = {
+        opts = function()
+            local colors = require("tokyonight.colors").setup()
+            local theme = require("lualine.themes.tokyonight")
+            for _, mode in pairs(theme) do
+                mode.b = { fg = colors.comment, bg = colors.bg_statusline }
+                mode.c = { fg = colors.fg, bg = colors.bg_statusline }
+            end
+            return {
             options = {
-                theme = "auto",
+                theme = theme,
                 globalstatus = true,
                 ignore_focus = { "snacks_picker_list", "snacks_picker_input", "snacks_layout_box" },
                 section_separators = "",
@@ -56,7 +68,21 @@ return {
             },
             sections = {
                 lualine_a = { "mode" },
-                lualine_b = { "branch", "diff" },
+                lualine_b = {
+                    {
+                        function() return vim.fn.fnamemodify(vim.fn.getcwd(), ":t") end,
+                        color = { fg = colors.fg, gui = "bold" },
+                    },
+                    {
+                        "branch",
+                        fmt = function(branch)
+                            local limit = vim.o.columns < 120 and 16 or 28
+                            return vim.fn.strchars(branch) > limit
+                                and vim.fn.strcharpart(branch, 0, limit - 1) .. "…" or branch
+                        end,
+                    },
+                    "diff",
+                },
                 lualine_c = {
                     { "filename", path = 1, symbols = { modified = " ●", readonly = " \u{f023}" } },
                     {
@@ -85,20 +111,14 @@ return {
                         color = { fg = "#ffc777" },
                     },
                     "diagnostics",
-                    {
-                        function()
-                            local names = vim.tbl_map(function(c) return c.name end,
-                                vim.lsp.get_clients({ bufnr = 0 }))
-                            return #names > 0 and "\u{f085} " .. table.concat(names, ",") or ""
-                        end,
-                    },
                     "filetype",
                 },
-                lualine_y = { "progress" },
-                lualine_z = { "location" },
+                lualine_y = {},
+                lualine_z = { { "location", color = { fg = colors.comment, bg = colors.bg_statusline } } },
             },
             extensions = { "lazy", "trouble", "quickfix" },
-        },
+            }
+        end,
     },
 
     -- Buffer tabs

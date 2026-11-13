@@ -1,4 +1,4 @@
-# Neovim: readable colors and a thin cursor
+# Neovim: readable colors and mode-aware cursor
 
 Tweaks for [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (lazy.nvim spec)
 when code feels hard to read: softer background, brighter comments, no italics.
@@ -19,7 +19,7 @@ Pair it with a Nerd Font in the terminal — see `KDE/konsole-nerd-font.md`.
         styles = { comments = { italic = false }, keywords = { italic = false } },
         -- Default palette is low-contrast: lift comments, gutter and selection
         on_colors = function(c)
-            c.comment = "#8793b8"
+            c.comment = "#9aa5c4"
             c.fg_gutter = "#69739a"
             c.bg_sidebar = "#1b1e2d"
             c.bg_float = "#1b1e2d"
@@ -38,6 +38,11 @@ Pair it with a Nerd Font in the terminal — see `KDE/konsole-nerd-font.md`.
             hl.FloatTitle = { fg = c.blue, bold = true }
             hl.SnacksPickerTitle = { fg = c.blue, bold = true }
             hl.SnacksPickerInputBorder = { fg = c.blue, bg = c.bg_float }
+            hl.Directory = { fg = c.comment }
+            hl.SnacksPickerDirectory = { fg = c.comment }
+            hl.SnacksPickerDir = { fg = c.comment }
+            hl.SnacksPickerTree = { fg = c.fg_gutter }
+            hl.SnacksPickerListCursorLine = { bg = c.bg_visual, bold = true }
             hl.TreesitterContext = { bg = c.bg_float }
             hl.TreesitterContextBottom = { sp = c.fg_gutter, underline = true }
         end,
@@ -49,17 +54,29 @@ Pair it with a Nerd Font in the terminal — see `KDE/konsole-nerd-font.md`.
 },
 ```
 
-## Thin cursor
+## Mode-aware cursor
 
 `lua/config/options.lua`:
 
 ```lua
--- Thin bar cursor everywhere; insert mode blinks, replace mode is an underline
-vim.opt.guicursor = "n-v-c-sm:ver25,i-ci-ve:ver25-blinkwait300-blinkon500-blinkoff400,r-cr-o:hor20"
+-- Make Normal mode easy to distinguish from Insert mode.
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-blinkwait300-blinkon500-blinkoff400,r-cr-o:hor20"
 ```
 
 - The actual bar width is drawn by the terminal; `ver25` vs `ver10` look the same in Konsole.
-- To keep a block in Normal mode: `n-v-c-sm:block`.
+- Normal mode uses a visible block; Insert uses a blinking bar, Replace an underline.
+
+## Quieter project navigation
+
+The Explorer uses a compact input with a bottom border, muted directory names,
+and a highlighted selected row. Hidden files are visible by default; `H` toggles
+them, `I` toggles ignored files, and `Z` collapses directories.
+
+Start Neovim from the project root. The statusline shows the current directory
+name, a shortened Git branch and the relative file path. LSP names and percentage
+progress are omitted; test and debug status appear when available.
+
+`<Space>fe` reveals the current file in the Explorer.
 
 ## Buffer navigation cheatsheet
 

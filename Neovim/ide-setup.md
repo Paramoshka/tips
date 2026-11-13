@@ -32,7 +32,10 @@ The config enables installed servers; optional language tools can be added later
 and the current Treesitter `master` grammars. Keep `lazy-lock.json` when copying.
 
 The visual setup uses Tokyo Night Moon, darker side panels, clearer comments and
-line numbers, underlined active tabs, and test/debug status in the statusline.
+line numbers, muted Explorer folders, a compact search input, underlined active
+tabs, and test/debug status in the statusline. The statusline shows the current
+project directory, a shortened branch name, and the relative file path.
+Normal mode uses a block cursor; Insert uses a blinking bar.
 The dashboard includes recent projects and manual session restore.
 
 ## Requirements
@@ -118,7 +121,13 @@ Leader is `Space`. Press `Space` and wait — which-key shows everything.
 | `<leader>/` | grep in project |
 | `<leader>sw` | grep word under cursor |
 | `<leader>e` | file explorer |
+| `<leader>fe` | reveal current file in explorer |
 | `<leader>sk` | search keymaps |
+
+Start one Neovim instance per project from its root directory: file and text
+search use the current directory. Explorer follows the open file and shows
+hidden files by default. Inside Explorer, `H` toggles hidden files, `I` toggles
+ignored files, and `Z` collapses directories.
 
 ### Buffers and windows
 
