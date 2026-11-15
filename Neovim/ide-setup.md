@@ -16,6 +16,7 @@ Same config is used in [c-devbox](https://github.com/Paramoshka/c-devbox) (Docke
 | Completion | blink.cmp + friendly-snippets |
 | Formatting | conform.nvim (format on save) |
 | Syntax | nvim-treesitter + textobjects + context |
+| Markdown reading | render-markdown.nvim (in-buffer rendering) |
 | Git | gitsigns.nvim, lazygit via snacks |
 | Diagnostics panel | trouble.nvim |
 | UI | lualine, bufferline, which-key |
@@ -154,6 +155,16 @@ ignored files, and `Z` collapses directories.
 | `<leader>xx` | diagnostics panel |
 | `<leader>cs` | symbols outline |
 | `s` + 2 chars | flash jump |
+
+### Markdown
+
+Open a `.md` file to render headings, lists, tables, links and code blocks directly
+in the buffer. Insert mode shows the source; Normal mode reveals markup around
+the cursor. `<leader>um` toggles rendering for the current Markdown buffer.
+The `markdown` and `markdown_inline` Treesitter parsers are already included.
+
+After copying the updated config, run `:Lazy restore` and restart Neovim.
+Use `:checkhealth render-markdown` if rendering does not appear.
 
 ### Git
 
